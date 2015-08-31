@@ -4,3 +4,7 @@
 Proof of concept:
 
 ![img](./gui.gif)
+
+Question: Where did the name come from?
+Answer:
+![img](./tallgeese.jpg)
