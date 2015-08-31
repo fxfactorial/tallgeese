@@ -1,9 +1,4 @@
-external start_prog : unit -> unit = "cocoa_ml_start"
-
-type results = Zipcode of string
-             | ShellCommand of string
-
-external to_gui : results -> unit = "cocoa_ml_receive_query_result"
+open Tallgeese_lib
 
 let connect_to host username =
   let open Ssh.Client in
@@ -25,4 +20,3 @@ let _ = Callback.register "zipcode_of_ip" zipcode_of_ip
 
 let () =
   start_prog ()
-
