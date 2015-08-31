@@ -10,8 +10,8 @@ License:      BSD-3-clause
 Plugins:      META (0.4), DevFiles (0.4)
 AlphaFeatures: ocamlbuild_more_args
 
-PreBuildCommand: cp src/code.m src/code.c
-PostBuildCommand: rm src/code.c
+PreBuildCommand: cp src/ssh_gui.m src/ssh_gui.c
+PostBuildCommand: rm src/ssh_gui.c
 
 Description:
   Enhanced SSH experience on OS X using native Cocoa
@@ -20,15 +20,16 @@ Description:
   makes the SSH experience more enjoyable on OS X.
 
 Executable tallgeese
+  Build$: system(macosx)
   Path: src
   BuildTools:ocamlbuild
   install: true
   MainIs: main.ml
-  CCOpt: -g  -Wextra -Wall -ObjC
+  CCOpt: -g -Wextra -Wall -ObjC -fobjc-arc
   CompiledObject: native
-  BuildDepends: cmdliner, podge, ssh
+  BuildDepends: cmdliner, ssh
   NativeOpt: -ccopt -framework -ccopt Appkit 
-  CSources: code.c
+  CSources: ssh_gui.h, ssh_gui.c, tallgeese_stubs.c
 
 # Executable run_test
 #   Install:false

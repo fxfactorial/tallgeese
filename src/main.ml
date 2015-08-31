@@ -9,3 +9,4 @@ external start_prog : unit -> unit = "cocoa_ml_start"
 
 let () =
   start_prog ()
+

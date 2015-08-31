@@ -1,0 +1,33 @@
+opam-version: "1.2"
+name: "tallgeese"
+version: "0.1"
+maintainer: "Edgar Aroutiounian <edgar.factorial@gmail.com>"
+authors: [ "Edgar Aroutiounian <edgar.factorial@gmail.com>" ]
+license: "BSD-3-clause"
+homepage: "http://hyegar.com"
+bug-reports: "https://github.com/fxfactorial/tallgeese/issues"
+dev-repo: "https://github.com/fxfactorial/tallgeese.git"
+build: [
+  ["oasis" "setup"]
+  ["ocaml" "setup.ml" "-configure" "--prefix" prefix]
+  ["ocaml" "setup.ml" "-build"]
+]
+install: ["ocaml" "setup.ml" "-install"]
+remove: [
+  ["ocaml" "%{etc}%/tallgeese/_oasis_remove_.ml" "%{etc}%/tallgeese"]
+]
+build-test: [
+  ["oasis" "setup"]
+  ["ocaml" "setup.ml" "-configure" "--enable-tests"]
+  ["ocaml" "setup.ml" "-build"]
+  ["ocaml" "setup.ml" "-test"]
+]
+depends: [
+  "oasis" {build & >= "0.4"}
+  "ocamlfind" {build}
+]
+depopts: [
+  "cmdliner" {build}
+  "ssh" {build}
+]
+available: [ ocaml-version >= "4.02.3" ]
