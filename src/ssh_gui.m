@@ -32,10 +32,12 @@
 
 -(void)send_query
 {
+  caml_callback(*caml_named_value("zipcode_of_ip"),
+  		 caml_copy_string("45.33.64.41"));
+
   caml_callback2(*caml_named_value("connect_to"),
   		 caml_copy_string("edgar.haus"),
   		 caml_copy_string("gar"));
-
 }
 
 -(void)setup_ui
@@ -61,11 +63,21 @@
 			     initWithFrame:NSMakeRect(40, 40, 440, 400)];
   self.ssh_output = [[NSTextView alloc] initWithFrame:scrolling.frame];
   self.ssh_output.editable = YES;
+  NSTextField *describe =
+    [[NSTextField alloc] initWithFrame:NSMakeRect(250, 525, 170, 20)];
+  describe.bezeled = NO;
+  describe.editable = NO;
+  describe.selectable = NO;
+  describe.stringValue = @"ZipCode of the SSH Server";
+
+  self.zip_code =
+    [[NSTextView alloc] initWithFrame:NSMakeRect(300, 500, 100, 20)];
   [scrolling addSubview:self.ssh_output];
   [scrolling setHasVerticalScroller:YES];
 
+  [self.window.contentView addSubview:self.zip_code];
   [self.window.contentView addSubview:scrolling];
-
+  [self.window.contentView addSubview:describe];
 }
 
 @end

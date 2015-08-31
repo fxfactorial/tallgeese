@@ -27,7 +27,7 @@ Executable tallgeese
   MainIs: main.ml
   CCOpt: -g -Wextra -Wall -ObjC -fobjc-arc
   CompiledObject: native
-  BuildDepends: cmdliner, ssh
+  BuildDepends: cmdliner, ssh, maxminddb
   NativeOpt: -ccopt -framework -ccopt Appkit 
   CSources: ssh_gui.h, ssh_gui.c, tallgeese_stubs.c
 

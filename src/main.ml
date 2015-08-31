@@ -1,5 +1,9 @@
 external start_prog : unit -> unit = "cocoa_ml_start"
-external send_result : string -> unit = "cocoa_ml_receive_query_result"
+
+type results = Zipcode of string
+             | ShellCommand of string
+
+external to_gui : results -> unit = "cocoa_ml_receive_query_result"
 
 let connect_to host username =
   let open Ssh.Client in
@@ -8,9 +12,16 @@ let connect_to host username =
   in
   let this_sess = Ssh.init () in
   connect opts this_sess;
-  exec "uname -a" this_sess |> send_result
+  ShellCommand(exec "uname -a" this_sess) |> to_gui
+
+let zipcode_of_ip host =
+  Maxminddb.with_mmdb "etc/GeoLite2-City.mmdb" begin fun m ->
+    Maxminddb.dump ~ip:host m |> print_endline;
+    Zipcode(Maxminddb.postal_code host m) |> to_gui
+  end
 
 let _ = Callback.register "connect_to" connect_to
+let _ = Callback.register "zipcode_of_ip" zipcode_of_ip
 
 let () =
   start_prog ()

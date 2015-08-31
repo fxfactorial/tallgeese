@@ -5,6 +5,7 @@
 
 @property (strong, nonatomic) NSWindow *window;
 @property (strong, nonatomic) NSTextView *ssh_output;
+@property (strong, nonatomic) NSTextView *zip_code;
 
 @end
 #endif

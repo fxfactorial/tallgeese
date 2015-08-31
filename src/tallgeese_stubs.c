@@ -10,14 +10,25 @@
 
 #include "ssh_gui.h"
 
-CAMLprim value cocoa_ml_receive_query_result(value result_string)
+CAMLprim value cocoa_ml_receive_query_result(value r_variant)
 {
-
-	CAMLparam1(result_string);
-	char *result = String_val(result_string);
+	CAMLparam1(r_variant);
+	/* CAMLlocal1(a_variant); */
+	char *result = String_val(Field(r_variant, 0));
+	int type = Tag_val(r_variant);
 	NSApplication *app = [NSApplication sharedApplication];
-	[((SshGUI*)app.delegate).ssh_output
-	 setString:[[NSString alloc] initWithUTF8String:result]];
+
+
+	switch (type) {
+	case 0:
+		[((SshGUI*)app.delegate).zip_code
+		 setString:[[NSString alloc] initWithUTF8String:result]];
+		break;
+	case 1:
+		[((SshGUI*)app.delegate).ssh_output
+		 setString:[[NSString alloc] initWithUTF8String:result]];
+		break;
+	}
 	CAMLreturn(Val_unit);
 }
 
