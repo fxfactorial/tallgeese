@@ -4,7 +4,7 @@
 @interface SshGUI : NSObject <NSApplicationDelegate>
 
 @property (strong, nonatomic) NSWindow *window;
-// @property (strong, nonatomic) NSStatusItem *statusItem;
+@property (strong, nonatomic) NSTextView *ssh_output;
 
 @end
 #endif
