@@ -1,0 +1,43 @@
+OASISFormat:  0.4
+OCamlVersion: >= 4.02.3
+Name:         tallgeese
+Version:      0.1
+Maintainers:  Edgar Aroutiounian
+Homepage:     http://hyegar.com
+Synopsis:     Enhanced SSH on OS X
+Authors:      Edgar Aroutiounian <edgar.factorial@gmail.com>
+License:      BSD-3-clause
+Plugins:      META (0.4), DevFiles (0.4)
+AlphaFeatures: ocamlbuild_more_args
+
+PreBuildCommand: cp src/code.m src/code.c
+PostBuildCommand: rm src/code.c
+
+Description:
+  Enhanced SSH experience on OS X using native Cocoa
+
+  tallgeese is an OCaml/Objective-C application that
+  makes the SSH experience more enjoyable on OS X.
+
+Executable tallgeese
+  Path: src
+  BuildTools:ocamlbuild
+  install: true
+  MainIs: main.ml
+  CCOpt: -g  -Wextra -Wall -ObjC
+  CompiledObject: native
+  BuildDepends: cmdliner, podge, ssh
+  NativeOpt: -ccopt -framework -ccopt Appkit 
+  CSources: code.c
+
+# Executable run_test
+#   Install:false
+#   Path: tests
+#   MainIs: r_test.ml
+#   BuildDepends:
+#   CompiledObject: best
+#   BuildTools:ocamlbuild
+
+# Test t
+#   Command: $run_test
+#   TestTools:run_test
