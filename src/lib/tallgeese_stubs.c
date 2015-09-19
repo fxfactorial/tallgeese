@@ -36,6 +36,9 @@ CAMLprim value cocoa_ml_start(void)
 {
   if (fork () == 0) {
     NSApplication *app = [NSApplication sharedApplication];
+    // Critical to have this so that you can add menus
+    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+
     SshGUI *app_delegate = [[SshGUI alloc] init];
 
     app.delegate = app_delegate;

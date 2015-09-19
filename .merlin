@@ -1,1 +1,2 @@
+B _build/src/lib
 PKG ssh podge cmdliner maxminddb tallgeese_lib

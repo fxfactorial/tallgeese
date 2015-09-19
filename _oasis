@@ -22,7 +22,7 @@ Description:
   tallgeese is an OCaml/Objective-C application that
   makes the SSH experience more enjoyable on OS X.
 
-Executable tallgeese
+Executable Tallgeese
   Build$: system(macosx)
   Path: src/app
   BuildTools:ocamlbuild
@@ -39,7 +39,8 @@ Library tallgeese_lib
   InternalModules: Tallgeese_lib
   CompiledObject: native
   CCOpt: -g -Wextra -Wall -ObjC -fobjc-arc
-  ByteOpt:-ccopt -framework -ccopt Appkit
+  ByteOpt:
+    -ccopt -framework -ccopt Appkit -ccopt -framework -ccopt SceneKit
   NativeOpt: -ccopt -framework -ccopt Appkit
   CSources: ssh_gui.h, ssh_gui.c, tallgeese_stubs.c
 

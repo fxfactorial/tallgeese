@@ -10,10 +10,9 @@ let connect_to host username =
   ShellCommand(exec "uname -a" this_sess) |> to_gui
 
 let zipcode_of_ip host =
-  Maxminddb.with_mmdb "etc/GeoLite2-City.mmdb" begin fun m ->
-    Maxminddb.dump ~ip:host m |> print_endline;
-    Zipcode(Maxminddb.postal_code host m) |> to_gui
-  end
+  Zipcode (Maxminddb.create "etc/GeoLite2-City.mmdb"
+           |> Maxminddb.postal_code ~ip:host)
+  |> to_gui
 
 let _ = Callback.register "connect_to" connect_to
 let _ = Callback.register "zipcode_of_ip" zipcode_of_ip
