@@ -13,47 +13,97 @@
 
 @implementation SshGUI
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+- (void)applicationDidFinishLaunching:(NSNotification *)a_notification
 {
-  self.window =
+	int flags = NSTitledWindowMask | NSResizableWindowMask | NSClosableWindowMask;
+  self.main_window =
     [[NSWindow alloc]
-      initWithContentRect:NSMakeRect(50, 10, 500,600)
-		styleMask:NSTitledWindowMask | NSResizableWindowMask
+      initWithContentRect:NSMakeRect(50, 10, 500, 600)
+		styleMask:flags
 		  backing:NSBackingStoreBuffered
 		    defer:NO];
   [self setup_ui];
-  [self.window makeKeyAndOrderFront:NSApp];
+  [self.main_window makeKeyAndOrderFront:NSApp];
 	// Make sure we're ahead of anything else.
-	[self.window setLevel:NSNormalWindowLevel + 1];
+	[self.main_window setLevel:NSNormalWindowLevel + 1];
 }
 
 -(void)send_query
 {
-  caml_callback(*caml_named_value("zipcode_of_ip"),
-  		 caml_copy_string("45.33.64.41"));
+	// Temporarily disabled
+  // caml_callback(*caml_named_value("zipcode_of_ip"),
+  // 		 caml_copy_string("45.33.64.41"));
 
-  caml_callback2(*caml_named_value("connect_to"),
-  		 caml_copy_string("edgar.haus"),
-  		 caml_copy_string("gar"));
+  // caml_callback2(*caml_named_value("connect_to"),
+  // 		 caml_copy_string("edgar.haus"),
+  // 		 caml_copy_string("gar"));
 }
 
--(void)setup_ui
+-(void)setup_menus
 {
 	NSMenu *menu_bar = [NSMenu new];
 	NSMenuItem *app_item = [NSMenuItem new];
 	NSMenu *app_menu = [NSMenu new];
-	NSString *app_name = @"Tallgeese";
-	NSString *quit_title = [@"Quit " stringByAppendingString:app_name];
+
 	NSMenuItem *quit_item =
 		[[NSMenuItem alloc]
-			initWithTitle:quit_title
-						 action:@selector(terminate:) keyEquivalent:@"q"];
-	[app_menu addItem:quit_item];
+			initWithTitle:@"Quit Tallgeese"
+						 action:@selector(terminate:)
+			keyEquivalent:@"q"];
+
+	NSMenuItem *about =
+		[[NSMenuItem alloc]
+			initWithTitle:@"About Tallgeese"
+						 action:@selector(show_about)
+			keyEquivalent:@""];
+
+	NSMenuItem *preferences =
+		[[NSMenuItem alloc]
+			initWithTitle:@"Preferences..."
+						 action:@selector(prefs)
+			keyEquivalent:@","];
+	NSArray *add_these =
+		@[about,
+		  [NSMenuItem separatorItem],
+			preferences,
+		  [NSMenuItem separatorItem], quit_item];
+	// Add them finally
+	for (id iter in add_these)
+		[app_menu addItem:iter];
+
 	[menu_bar addItem:app_item];
 	[app_item setSubmenu:app_menu];
 	[NSApp setMainMenu:menu_bar];
+}
 
-  [self.window setBackgroundColor:[NSColor grayColor]];
+-(void)show_about
+{
+	// Notice that if you don't do this as a property, aka holding a
+	// strong reference to it then it gets collected and disappears
+	// immediately
+	int flags = NSTitledWindowMask | NSResizableWindowMask | NSClosableWindowMask;
+	self.about_window =
+		[[NSWindow alloc]
+			initWithContentRect:NSMakeRect(50, 10, 100, 100)
+								styleMask:flags
+									backing:NSBackingStoreBuffered
+										defer:NO];
+	self.about_window.backgroundColor = [NSColor redColor];
+	[self.about_window setLevel:NSNormalWindowLevel + 1];
+	[self.about_window makeKeyAndOrderFront:NSApp];
+
+}
+
+-(void)prefs
+{
+	NSLog(@"Called");
+}
+
+-(void)setup_ui
+{
+	[self setup_menus];
+
+  [self.main_window setBackgroundColor:[NSColor grayColor]];
   NSButton *send_query = [[NSButton alloc]
 			   initWithFrame:NSMakeRect(20, 500, 150, 40)];
   send_query.bezelStyle = NSRoundedBezelStyle;
@@ -61,7 +111,7 @@
   [send_query setTarget:self];
   [send_query setAction:@selector(send_query)];
 
-  [self.window.contentView addSubview: send_query];
+  [self.main_window.contentView addSubview: send_query];
 
   NSScrollView *scrolling = [[NSScrollView alloc]
 			     initWithFrame:NSMakeRect(40, 40, 440, 400)];
@@ -79,9 +129,9 @@
   [scrolling addSubview:self.ssh_output];
   [scrolling setHasVerticalScroller:YES];
 
-  [self.window.contentView addSubview:self.zip_code];
-  [self.window.contentView addSubview:scrolling];
-  [self.window.contentView addSubview:describe];
+  [self.main_window.contentView addSubview:self.zip_code];
+  [self.main_window.contentView addSubview:scrolling];
+  [self.main_window.contentView addSubview:describe];
 }
 
 @end
