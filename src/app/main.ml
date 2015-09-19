@@ -6,8 +6,13 @@ let connect_to host username =
     { host; username; port = 22; log_level = SSH_LOG_FUNCTIONS; auth = Auto }
   in
   let this_sess = Ssh.init () in
-  connect opts this_sess;
-  ShellCommand(exec "uname -a" this_sess) |> to_gui
+  match connect opts this_sess with
+  | exception Failure _ -> raise Connection_failure
+  | () ->
+    try
+      ShellCommand(exec "uname -a" this_sess) |> to_gui
+    with
+      _ -> prerr_endline "Some error doing shell command"
 
 let zipcode_of_ip host =
   Zipcode (Maxminddb.create "etc/GeoLite2-City.mmdb"

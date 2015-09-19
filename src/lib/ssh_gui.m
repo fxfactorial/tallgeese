@@ -23,6 +23,8 @@
 		    defer:NO];
   [self setup_ui];
   [self.window makeKeyAndOrderFront:NSApp];
+	// Make sure we're ahead of anything else.
+	[self.window setLevel:NSNormalWindowLevel + 1];
 }
 
 -(void)send_query

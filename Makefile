@@ -26,6 +26,7 @@ reinstall: setup.data
 
 clean:
 	$(SETUP) -clean $(CLEANFLAGS)
+	rm -rf ~/Applications/Tallgeese.app
 
 distclean:
 	$(SETUP) -distclean $(DISTCLEANFLAGS)
@@ -42,8 +43,9 @@ configure:
 
 name := $(shell oasis query name)
 
-app_install:
+app:build
 	# The s and |s let you do paths without having sed get confused
 	# and the -i makes it inplace, '' means no file backup
 	sed -i '' 's|APP_PATH|$(shell opam config var $(name):bin)/$(name)|g' build_app
+	# sed -i '' 's|APP_PATH|$(shell pwd)/main.native|g' build_app
 	osascript build_app
