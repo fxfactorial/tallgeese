@@ -39,3 +39,11 @@ configure:
 .PHONY: build doc test all install uninstall reinstall clean distclean configure
 
 # OASIS_STOP
+
+name := $(shell oasis query name)
+
+app_install:
+	# The s and |s let you do paths without having sed get confused
+	# and the -i makes it inplace, '' means no file backup
+	sed -i '' 's|APP_PATH|$(shell opam config var $(name):bin)/$(name)|g' build_app
+	osascript build_app
