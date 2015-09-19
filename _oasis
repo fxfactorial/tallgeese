@@ -28,7 +28,7 @@ Executable Tallgeese
   BuildTools:ocamlbuild
   install: true
   MainIs: main.ml
-  CCOpt: -g -Wextra -Wall -ObjC -fobjc-arc
+  CCOpt: -g -Weverything -Wall -ObjC -fobjc-arc
   CompiledObject: native
   BuildDepends: cmdliner, ssh, maxminddb, tallgeese_lib
 

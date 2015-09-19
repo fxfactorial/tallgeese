@@ -13,11 +13,10 @@
 CAMLprim value cocoa_ml_receive_query_result(value r_variant)
 {
 	CAMLparam1(r_variant);
-	/* CAMLlocal1(a_variant); */
-	char *result = String_val(Field(r_variant, 0));
+
+	char *result = caml_strdup(String_val(Field(r_variant, 0)));
 	int type = Tag_val(r_variant);
 	NSApplication *app = [NSApplication sharedApplication];
-
 
 	switch (type) {
 	case 0:
@@ -29,6 +28,7 @@ CAMLprim value cocoa_ml_receive_query_result(value r_variant)
 		 setString:[[NSString alloc] initWithUTF8String:result]];
 		break;
 	}
+	free(result);
 	CAMLreturn(Val_unit);
 }
 
@@ -40,7 +40,8 @@ CAMLprim value cocoa_ml_start(void)
     [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
 
     SshGUI *app_delegate = [[SshGUI alloc] init];
-
+    /* close(STDOUT_FILENO); */
+    /* fclose(stdout); */
     app.delegate = app_delegate;
     [app run];
     return Val_unit;
