@@ -10,7 +10,7 @@
 #import <Cocoa/Cocoa.h>
 
 #include "ssh_gui.h"
-
+    
 @implementation SshGUI
 
 - (void)applicationDidFinishLaunching:(NSNotification *)a_notification
@@ -82,13 +82,23 @@
 	// strong reference to it then it gets collected and disappears
 	// immediately
 	int flags = NSTitledWindowMask | NSResizableWindowMask | NSClosableWindowMask;
+	NSRect screen_frame = [NSScreen mainScreen].frame;
+	CGFloat center_x = CGRectGetMidX(screen_frame);
+	CGFloat center_y = CGRectGetMidY(screen_frame);
+	NSRect about_frame = NSMakeRect(center_x - 75, center_y - 50, 175, 150);
 	self.about_window =
 		[[NSWindow alloc]
-			initWithContentRect:NSMakeRect(50, 10, 100, 100)
+			initWithContentRect:about_frame
 								styleMask:flags
 									backing:NSBackingStoreBuffered
 										defer:NO];
-	self.about_window.backgroundColor = [NSColor redColor];
+	NSTextField *about_message =
+		// Need to Center this correctly.
+		[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 50, 50)];
+	about_message.editable = NO;
+	about_message.selectable = NO;
+	about_message.stringValue = @"About Tallgeese";
+	[self.about_window.contentView addSubview:about_message];
 	[self.about_window setLevel:NSNormalWindowLevel + 1];
 	[self.about_window makeKeyAndOrderFront:NSApp];
 
@@ -111,7 +121,7 @@
   [send_query setTarget:self];
   [send_query setAction:@selector(send_query)];
 
-  [self.main_window.contentView addSubview: send_query];
+  [self.main_window.contentView addSubview:send_query];
 
   NSScrollView *scrolling = [[NSScrollView alloc]
 			     initWithFrame:NSMakeRect(40, 40, 440, 400)];
