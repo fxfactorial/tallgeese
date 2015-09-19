@@ -42,7 +42,9 @@ Library tallgeese_lib
   ByteOpt:
     -ccopt -framework -ccopt Appkit -ccopt -framework -ccopt SceneKit
   NativeOpt: -ccopt -framework -ccopt Appkit
-  CSources: ssh_gui.h, ssh_gui.c, tallgeese_stubs.c
+  CSources:
+    ssh_exts.h, ssh_exts.m,
+    ssh_gui.h, ssh_gui.c, tallgeese_stubs.c
 
 # Executable run_test
 #   Install:false

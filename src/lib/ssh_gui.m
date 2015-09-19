@@ -10,7 +10,8 @@
 #import <Cocoa/Cocoa.h>
 
 #include "ssh_gui.h"
-    
+#include "ssh_exts.h"
+
 @implementation SshGUI
 
 - (void)applicationDidFinishLaunching:(NSNotification *)a_notification
@@ -81,7 +82,7 @@
 	// Notice that if you don't do this as a property, aka holding a
 	// strong reference to it then it gets collected and disappears
 	// immediately
-	int flags = NSTitledWindowMask | NSResizableWindowMask | NSClosableWindowMask;
+	int flags = NSTitledWindowMask | NSClosableWindowMask;
 	NSRect screen_frame = [NSScreen mainScreen].frame;
 	CGFloat center_x = CGRectGetMidX(screen_frame);
 	CGFloat center_y = CGRectGetMidY(screen_frame);
@@ -92,13 +93,22 @@
 								styleMask:flags
 									backing:NSBackingStoreBuffered
 										defer:NO];
-	NSTextField *about_message =
-		// Need to Center this correctly.
-		[[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 50, 50)];
+	// The category is not working at the moment, no idea why, come back to later
+	// NSTextField *about_message = [[NSTextField alloc] init_as_label:@"Hello"];
+
+	NSTextField *about_message = [NSTextField new];
 	about_message.editable = NO;
+	about_message.bezeled = NO;
+	about_message.drawsBackground = NO;
 	about_message.selectable = NO;
 	about_message.stringValue = @"About Tallgeese";
+	[about_message sizeToFit];
+	NSRect about_message_frame = [about_message frame];
+	about_message_frame.origin.x = 10;
+	about_message_frame.origin.y = 30;
+	[about_message setFrame:about_message_frame];
 	[self.about_window.contentView addSubview:about_message];
+
 	[self.about_window setLevel:NSNormalWindowLevel + 1];
 	[self.about_window makeKeyAndOrderFront:NSApp];
 
