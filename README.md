@@ -3,8 +3,8 @@
 
 Proof of concept:
 
-![img](./gui.gif)
+![img](./etc/gui.gif)
 
 Question: Where did the name come from?
 Answer:
-![img](./tallgeese.jpg)
+![img](./etc/tallgeese.jpg)
