@@ -1,28 +1,35 @@
-//Cocoa
 #import <Cocoa/Cocoa.h>
 
 #include "ssh_gui.h"
 #include "ssh_exts.h"
 #include "ssh_ml.h"
+#include "ssh_prefs.h"
 
 @implementation SshGUI
 
 - (void)applicationDidFinishLaunching:(NSNotification *)a_notification
 {
 	int flags =
-		NSTitledWindowMask | NSResizableWindowMask
-		| NSClosableWindowMask | NSMiniaturizableWindowMask;
+		NSTitledWindowMask
+		| NSResizableWindowMask
+		| NSUnifiedTitleAndToolbarWindowMask
+		| NSClosableWindowMask
+		| NSMiniaturizableWindowMask;
   self.main_window =
     [[NSWindow alloc]
       initWithContentRect:NSMakeRect(50, 10, 500, 600)
 		styleMask:flags
 		  backing:NSBackingStoreBuffered
 		    defer:NO];
+	// NSToolbar *bar = [[NSToolbar alloc] initWithIdentifier:@"main_window_toolbar"];
+	// bar.displayMode = NSToolbarDisplayModeIconAndLabel;
+	// self.main_window.toolbar = bar;
+
+	[self.main_window setTitle:@"Tallgeese"];
   [self setup_ui];
   [self.main_window makeKeyAndOrderFront:NSApp];
 	// Make sure we're ahead of anything else.
 	[self.main_window setLevel:NSNormalWindowLevel + 1];
-
 }
 
 -(void)setup_menus
@@ -46,7 +53,7 @@
 	NSMenuItem *preferences =
 		[[NSMenuItem alloc]
 			initWithTitle:@"Preferences..."
-						 action:@selector(prefs)
+						 action:@selector(preferences)
 			keyEquivalent:@","];
 	NSArray *add_these =
 		@[about,
@@ -105,61 +112,64 @@
 	[self.about_window makeKeyAndOrderFront:NSApp];
 }
 
--(void)prefs
+-(void)preferences
 {
-	NSLog(@"Called");
+	Ssh_prefs *preferences = [[Ssh_prefs alloc] init];
+
 }
 
 -(void)setup_main_interface
 {
 	NSTabView *v = [NSTabView new];
+	v.drawsBackground = YES;
 
 	NSTabViewItem *first_page =
 		[[NSTabViewItem alloc] initWithIdentifier:@"first_page"];
 
+	first_page.label = @"First Page";
+
 	for (NSTabViewItem *g in @[first_page])
 		[v addTabViewItem:g];
 
-	[self.main_window.contentView addSubview:v];
-
+	self.main_window.contentView = v;
 }
 
 -(void)setup_ui
 {
 	Ssh_ml *ml_obj = [Ssh_ml shared_application];
 	[self setup_menus];
-	// [self setup_main_interface];
+	[self setup_main_interface];
 
-  [self.main_window setBackgroundColor:[NSColor grayColor]];
+  // [self.main_window setBackgroundColor:[NSColor grayColor]];
 
-  NSButton *send_query = [[NSButton alloc]
-			   initWithFrame:NSMakeRect(20, 500, 150, 40)];
-  send_query.bezelStyle = NSRoundedBezelStyle;
-  send_query.title = @"Send ssh command";
-  [send_query setTarget:ml_obj];
-  [send_query setAction:@selector(query_zipcode_of_ip:)];
+  // NSButton *send_query = [[NSButton alloc]
+	// 		   initWithFrame:NSMakeRect(20, 500, 150, 40)];
+  // send_query.bezelStyle = NSRoundedBezelStyle;
+  // send_query.title = @"Send ssh command";
+  // [send_query setTarget:ml_obj];
+  // [send_query setAction:@selector(query_zipcode_of_ip:)];
 
-  [self.main_window.contentView addSubview:send_query];
+  // [self.main_window.contentView addSubview:send_query];
 
-  NSScrollView *scrolling = [[NSScrollView alloc]
-			     initWithFrame:NSMakeRect(40, 40, 440, 400)];
-  self.ssh_output = [[NSTextView alloc] initWithFrame:scrolling.frame];
-  self.ssh_output.editable = YES;
-  NSTextField *describe =
-    [[NSTextField alloc] initWithFrame:NSMakeRect(250, 525, 170, 20)];
-  describe.bezeled = NO;
-  describe.editable = NO;
-  describe.selectable = NO;
-  describe.stringValue = @"ZipCode of the SSH Server";
+  // NSScrollView *scrolling = [[NSScrollView alloc]
+	// 		     initWithFrame:NSMakeRect(40, 40, 440, 400)];
+  // self.ssh_output = [[NSTextView alloc] initWithFrame:scrolling.frame];
+  // self.ssh_output.editable = YES;
+  // NSTextField *describe =
+  //   [[NSTextField alloc] initWithFrame:NSMakeRect(250, 525, 170, 20)];
+  // describe.bezeled = NO;
+  // describe.editable = NO;
+  // describe.selectable = NO;
+  // describe.stringValue = @"ZipCode of the SSH Server";
 
-  self.zip_code =
-    [[NSTextView alloc] initWithFrame:NSMakeRect(300, 500, 100, 20)];
-  [scrolling addSubview:self.ssh_output];
-  [scrolling setHasVerticalScroller:YES];
+  // self.zip_code =
+  //   [[NSTextView alloc] initWithFrame:NSMakeRect(300, 500, 100, 20)];
+  // [scrolling addSubview:self.ssh_output];
+  // [scrolling setHasVerticalScroller:YES];
 
-  [self.main_window.contentView addSubview:self.zip_code];
-  [self.main_window.contentView addSubview:scrolling];
-  [self.main_window.contentView addSubview:describe];
+  // [self.main_window.contentView addSubview:self.zip_code];
+  // [self.main_window.contentView addSubview:scrolling];
+  // [self.main_window.contentView addSubview:describe];
 }
 
 @end

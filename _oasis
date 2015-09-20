@@ -16,11 +16,13 @@ AlphaFeatures: ocamlbuild_more_args
 PreBuildCommand:
   cp src/lib/ssh_exts.m src/lib/ssh_exts.c;
   cp src/lib/ssh_gui.m src/lib/ssh_gui.c;
+  cp src/lib/ssh_prefs.m src/lib/ssh_prefs.c;
   cp src/lib/ssh_ml.m src/lib/ssh_ml.c
 
 PostBuildCommand:
   rm src/lib/ssh_exts.c;
   rm src/lib/ssh_gui.c;
+  rm src/lib/ssh_prefs.c;
   rm src/lib/ssh_ml.c
 
 Description:
@@ -53,6 +55,7 @@ Library tallgeese_lib
   CSources:
     ssh_exts.h, ssh_exts.c,
     ssh_gui.h, ssh_gui.c,
+    ssh_prefs.h, ssh_prefs.c,
     ssh_ml.h, ssh_ml.c,
     tallgeese_stubs.c
 
