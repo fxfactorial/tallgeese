@@ -95,7 +95,7 @@
 										defer:NO];
 	// The category is not working at the moment, no idea why, come back to later
 	// NSTextField *about_message = [[NSTextField alloc] init_as_label:@"Hello"];
-
+	// Can't get constraints working either!
 	NSTextField *about_message = [NSTextField new];
 	about_message.editable = NO;
 	about_message.bezeled = NO;
@@ -107,11 +107,23 @@
 	about_message_frame.origin.x = 10;
 	about_message_frame.origin.y = 30;
 	[about_message setFrame:about_message_frame];
-	[self.about_window.contentView addSubview:about_message];
 
+	// NSDictionary *this_dict =
+	// 	@{@"about_message":about_message, @"window_view":self.about_window.contentView};
+// + constraintsWithVisualFormat:options:metrics:views:
+// [button1 setTranslatesAutoresizingMaskIntoConstraints:NO];
+	// [about_message setTranslatesAutoresizingMaskIntoConstraints:NO];
+	// NSArray *cons =
+	// 	[NSLayoutConstraint
+	// 		constraintsWithVisualFormat:@"V:[window_view]-10-[about_message]"
+	// 												options:NSLayoutFormatAlignAllCenterX
+	// 												metrics:nil
+	// 													views:this_dict];
+	// [about_message addConstraints:cons];
+
+	[self.about_window.contentView addSubview:about_message];
 	[self.about_window setLevel:NSNormalWindowLevel + 1];
 	[self.about_window makeKeyAndOrderFront:NSApp];
-
 }
 
 -(void)prefs
