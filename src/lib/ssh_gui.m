@@ -170,14 +170,18 @@
 
 -(void)command_send:(NSTextField*)sender
 {
-	NSLog(@"%@", [sender stringValue]);
+	Ssh_ml *ml_obj = [Ssh_ml shared_application];
+
+	[ml_obj send_ssh_command:sender.stringValue];
+
 	self.ssh_output.string =
-		[self.ssh_output.string stringByAppendingString:@"New String\n"];
+		[self.ssh_output.string stringByAppendingString:self.ssh_output_string];
+	self.ssh_output.string =
+		[self.ssh_output.string stringByAppendingString:@"\n"];
 }
 
 -(void)setup_ui
 {
-	Ssh_ml *ml_obj = [Ssh_ml shared_application];
 	[self setup_menus];
 	[self setup_main_interface];
 

@@ -1,6 +1,6 @@
 open Tallgeese_lib
 
-let connect_to host username =
+let connect_to host username command =
   let open Ssh.Client in
   let opts =
     { host; username; port = 22; log_level = SSH_LOG_FUNCTIONS; auth = Auto }
@@ -10,7 +10,7 @@ let connect_to host username =
   | exception Failure _ -> raise Connection_failure
   | () ->
     try
-      ShellCommand(exec "uname -a" this_sess) |> to_gui
+      ShellCommand(exec command this_sess) |> to_gui
     with
       _ -> prerr_endline "Some error doing shell command"
 

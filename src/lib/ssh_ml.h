@@ -15,6 +15,7 @@
 
 -(void)query_zipcode_of_ip:(NSButton*)b;
 -(void)handle_query_result:(value)r;
+-(void)send_ssh_command:(NSString*)command;
 
 @end
 

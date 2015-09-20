@@ -45,21 +45,28 @@
 	NSLog(@"Called query_zipcode, %@", b);
 }
 
+-(void)send_ssh_command:(NSString*)command
+{
+	caml_callback3(*caml_named_value("connect_to"),
+								 caml_copy_string("edgar.haus"),
+								 caml_copy_string("gar"),
+								 caml_copy_string(command.UTF8String));
+}
+
 -(void)handle_query_result:(value)r_variant
 {
-	NSLog(@"query_Result called");
 	char *result = caml_strdup(String_val(Field(r_variant, 0)));
 	int type = Tag_val(r_variant);
 	NSApplication *app = [NSApplication sharedApplication];
 
 	switch (type) {
 	case 0:
-		[((SshGUI*)app.delegate).zip_code
-				setString:[[NSString alloc] initWithUTF8String:result]];
+		((SshGUI*)app.delegate).zip_code_output =
+			[[NSString alloc] initWithUTF8String:result];
 		break;
 	case 1:
-		[((SshGUI*)app.delegate).ssh_output
-				setString:[[NSString alloc] initWithUTF8String:result]];
+		((SshGUI*)app.delegate).ssh_output_string =
+			[[NSString alloc] initWithUTF8String:result];
 		break;
 	}
 	free(result);

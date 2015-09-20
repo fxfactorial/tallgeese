@@ -11,7 +11,9 @@
 @property (strong, nonatomic) NSWindow *about_window;
 @property (strong, nonatomic) Ssh_prefs *prefs_object;
 @property (strong, nonatomic) NSTextView *ssh_output;
-@property (strong, nonatomic) NSTextView *zip_code;
+
+@property (strong, nonatomic) NSString *ssh_output_string;
+@property (strong, nonatomic) NSString *zip_code_output;
 
 @end
 #endif
