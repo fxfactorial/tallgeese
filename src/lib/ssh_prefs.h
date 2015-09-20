@@ -7,6 +7,7 @@
 
 @property (strong, nonatomic) NSWindow *preferences_window;
 
+-(void)show;
 @end
 
 #endif

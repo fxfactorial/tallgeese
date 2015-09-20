@@ -114,8 +114,8 @@
 
 -(void)preferences
 {
-	Ssh_prefs *preferences = [[Ssh_prefs alloc] init];
-
+	self.prefs_object = [Ssh_prefs new];
+	[self.prefs_object show];
 }
 
 -(void)setup_main_interface
