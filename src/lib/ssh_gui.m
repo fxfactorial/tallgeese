@@ -40,26 +40,18 @@
 
 	NSMenuItem *quit_item =
 		[[NSMenuItem alloc]
-			initWithTitle:@"Quit Tallgeese"
-						 action:@selector(terminate:)
-			keyEquivalent:@"q"];
+			initWithTitle:@"Quit Tallgeese" action:@selector(terminate:) keyEquivalent:@"q"];
 
 	NSMenuItem *about =
 		[[NSMenuItem alloc]
-			initWithTitle:@"About Tallgeese"
-						 action:@selector(show_about)
-			keyEquivalent:@""];
+			initWithTitle:@"About Tallgeese" action:@selector(show_about) keyEquivalent:@""];
 
 	NSMenuItem *preferences =
 		[[NSMenuItem alloc]
-			initWithTitle:@"Preferences..."
-						 action:@selector(preferences)
-			keyEquivalent:@","];
+			initWithTitle:@"Preferences..." action:@selector(preferences) keyEquivalent:@","];
+
 	NSArray *add_these =
-		@[about,
-					 [NSMenuItem separatorItem],
-					 preferences,
-					 [NSMenuItem separatorItem], quit_item];
+		@[about, [NSMenuItem separatorItem], preferences, [NSMenuItem separatorItem], quit_item];
 	// Add them finally
 	for (id iter in add_these)
 		[app_menu addItem:iter];
@@ -67,6 +59,11 @@
 	[menu_bar addItem:app_item];
 	[app_item setSubmenu:app_menu];
 	[NSApp setMainMenu:menu_bar];
+}
+
+- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
+{
+	NSLog(@"Something dragged");
 }
 
 -(void)show_about
@@ -81,10 +78,7 @@
 	NSRect about_frame = NSMakeRect(center_x - 75, center_y - 50, 175, 150);
 	self.about_window =
 		[[NSWindow alloc]
-			initWithContentRect:about_frame
-								styleMask:flags
-									backing:NSBackingStoreBuffered
-										defer:NO];
+			initWithContentRect:about_frame styleMask:flags backing:NSBackingStoreBuffered defer:NO];
 
 	NSTextField *about_message =
 		[[NSTextField alloc] init_as_label:@"About Tallgeese"];
@@ -124,14 +118,12 @@
 	v.drawsBackground = YES;
 
 	NSTabViewItem *first_page =
-		[[NSTabViewItem alloc] init_with:@"Dashboard"
-														tool_tip:@"Main ssh manipulation"
-													identifier:@"first_page"];
+		[[NSTabViewItem alloc]
+			init_with:@"Dashboard" tool_tip:@"Main ssh manipulation" identifier:@"first_page"];
 
 	NSTabViewItem *second_page =
-		[[NSTabViewItem alloc] init_with:@"History"
-														tool_tip:@"Some second page"
-													identifier:@"second_page"];
+		[[NSTabViewItem alloc]
+			init_with:@"History" tool_tip:@"Some second page" identifier:@"second_page"];
 
 	for (id g in @[first_page, second_page])
 		[v addTabViewItem:g];
