@@ -23,9 +23,11 @@
 +(Ssh_ml*)shared_application
 {
 	static Ssh_ml *shared_app = nil;
+	static dispatch_once_t once_token;
 
-	if (shared_app == nil)
-		shared_app = [Ssh_ml new];
+	dispatch_once(&once_token, ^{
+      shared_app = [[self alloc] init];
+		});
 
 	return shared_app;
 }
