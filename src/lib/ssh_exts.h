@@ -1,3 +1,5 @@
+// Categories and general utilities.
+
 #ifndef SSH_EXTS_H
 #define SSH_EXTS_H
 

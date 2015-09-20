@@ -40,6 +40,7 @@
 
 	NSMenuItem *quit_item =
 		[[NSMenuItem alloc]
+			// This should double check if there are any ssh_connections still open
 			initWithTitle:@"Quit Tallgeese" action:@selector(terminate:) keyEquivalent:@"q"];
 
 	NSMenuItem *about =
@@ -61,10 +62,15 @@
 	[NSApp setMainMenu:menu_bar];
 }
 
-- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
-{
-	NSLog(@"Something dragged");
-}
+// Not working, something about changing the Info.plist
+// see: http://stackoverflow.com/questions/501079/how-do-i-make-an-os-x-application-react-when-a-file-picture-etc-is-dropped-on
+// http://stackoverflow.com/questions/14526936/drag-and-drop-of-file-on-app-icon-doesnt-work-unless-the-app-is-currently-runni?lq=1
+// http://stackoverflow.com/questions/5331774/cocoa-obj-c-open-file-when-dragging-it-to-application-icon?rq=1#
+
+// - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
+// {
+// 	NSLog(@"Something dragged");
+// }
 
 -(void)show_about
 {
@@ -116,11 +122,42 @@
 {
 	NSTabView *v = [NSTabView new];
 	v.drawsBackground = YES;
+	self.ssh_output = [[NSTextView alloc] init];
+	[self.ssh_output setTextColor:[NSColor greenColor]];
+	[self.ssh_output setBackgroundColor:[NSColor blackColor]];
 
 	NSTabViewItem *first_page =
 		[[NSTabViewItem alloc]
 			init_with:@"Dashboard" tool_tip:@"Main ssh manipulation" identifier:@"first_page"];
 
+	NSScrollView *ssh_output_scroll = [NSScrollView new];
+
+	[ssh_output_scroll setBorderType:NSNoBorder];
+	[ssh_output_scroll setHasVerticalScroller:YES];
+	[ssh_output_scroll setHasHorizontalScroller:NO];
+	[ssh_output_scroll setAutoresizingMask:NSViewWidthSizable |
+										 NSViewHeightSizable];
+	// [first_page.view addSubview:ssh_output_scroll];
+	first_page.view = ssh_output_scroll;
+	// [ssh_output setMinSize:NSMakeSize(0.0, contentSize.height)];
+	[self.ssh_output setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+	[self.ssh_output setVerticallyResizable:YES];
+	// [self.ssh_output setBackgroundColor:[NSColor redColor]];
+	[self.ssh_output setHorizontallyResizable:NO];
+	[self.ssh_output setAutoresizingMask:NSViewWidthSizable];
+	// [[ssh_output textContainer] setContainerSize:NSMakeSize(contentSize.width, FLT_MAX)];
+	[[self.ssh_output textContainer] setWidthTracksTextView:YES];
+	[self.ssh_output setEditable:NO];
+	[ssh_output_scroll setDocumentView:self.ssh_output];
+
+
+	NSTextField *input_field =
+		[[NSTextField alloc] initWithFrame:NSMakeRect(0, 525, 400, 30)];
+
+	[input_field setTarget:self];
+	[input_field setAction:@selector(command_send:)];
+
+	[first_page.view addSubview:input_field];
 	NSTabViewItem *second_page =
 		[[NSTabViewItem alloc]
 			init_with:@"History" tool_tip:@"Some second page" identifier:@"second_page"];
@@ -129,6 +166,13 @@
 		[v addTabViewItem:g];
 
 	self.main_window.contentView = v;
+}
+
+-(void)command_send:(NSTextField*)sender
+{
+	NSLog(@"%@", [sender stringValue]);
+	self.ssh_output.string =
+		[self.ssh_output.string stringByAppendingString:@"New String\n"];
 }
 
 -(void)setup_ui
