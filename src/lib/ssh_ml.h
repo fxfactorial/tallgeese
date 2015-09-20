@@ -14,7 +14,7 @@
 +(Ssh_ml*)shared_application;
 
 -(void)query_zipcode_of_ip:(NSButton*)b;
--(void)receive_query_result:(value)r;
+-(void)handle_query_result:(value)r;
 
 @end
 

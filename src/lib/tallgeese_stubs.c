@@ -16,28 +16,13 @@ CAMLprim value cocoa_ml_receive_query_result(value r_variant)
 	CAMLparam1(r_variant);
 
 	Ssh_ml *ml_obj = [Ssh_ml shared_application];
-	[ml_obj receive_query_result:r_variant];
-
-	char *result = caml_strdup(String_val(Field(r_variant, 0)));
-	int type = Tag_val(r_variant);
-	NSApplication *app = [NSApplication sharedApplication];
-
-	switch (type) {
-	case 0:
-		[((SshGUI*)app.delegate).zip_code
-		 setString:[[NSString alloc] initWithUTF8String:result]];
-		break;
-	case 1:
-		[((SshGUI*)app.delegate).ssh_output
-		 setString:[[NSString alloc] initWithUTF8String:result]];
-		break;
-	}
-	free(result);
+	[ml_obj handle_query_result:r_variant];
 	CAMLreturn(Val_unit);
 }
 
 CAMLprim value cocoa_ml_start(void)
 {
+  CAMLparam0 ();
   if (fork () == 0) {
     NSApplication *app = [NSApplication sharedApplication];
     // Critical to have this so that you can add menus
@@ -48,9 +33,10 @@ CAMLprim value cocoa_ml_start(void)
     /* fclose(stdout); */
     app.delegate = app_delegate;
     [app run];
-    return Val_unit;
+    CAMLreturn(Val_unit);
   }
   else{
     exit(0);
+    CAMLreturn(Val_unit);
   }
 }
