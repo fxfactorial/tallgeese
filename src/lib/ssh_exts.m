@@ -6,14 +6,14 @@
 
 -(instancetype)init_as_label:(NSString*)s
 {
-	if (self = [super init]) {
-		self.stringValue = s;
+	if (self = [super initWithFrame:NSMakeRect(0, 0, 0, 0)]) {
 		self.editable = NO;
+		self.bezeled = NO;
 		self.drawsBackground = NO;
 		self.selectable = NO;
+		self.stringValue = s;
 		[self sizeToFit];
 	}
-	NSLog(@"Created a category!");
 	return self;
 }
 

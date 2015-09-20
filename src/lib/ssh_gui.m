@@ -9,7 +9,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)a_notification
 {
-	int flags = NSTitledWindowMask | NSResizableWindowMask | NSClosableWindowMask;
+	int flags =
+		NSTitledWindowMask | NSResizableWindowMask
+		| NSClosableWindowMask | NSMiniaturizableWindowMask;
   self.main_window =
     [[NSWindow alloc]
       initWithContentRect:NSMakeRect(50, 10, 500, 600)
@@ -76,23 +78,15 @@
 								styleMask:flags
 									backing:NSBackingStoreBuffered
 										defer:NO];
-	// The category is not working at the moment, no idea why, come back to later
-	// NSTextField *about_message_cat = [[NSTextField alloc] init_as_label:@"Hello"];
-	// NSTextField *about_message_cat = [NSTextField init_as_label:@"Hello"];
 
-	NSTextField *about_message = [NSTextField new];
-	about_message.editable = NO;
-	about_message.bezeled = NO;
-	about_message.drawsBackground = NO;
-	about_message.selectable = NO;
-	about_message.stringValue = @"About Tallgeese";
-	[about_message sizeToFit];
+	NSTextField *about_message =
+		[[NSTextField alloc] init_as_label:@"About Tallgeese"];
+
 	NSRect about_message_frame = [about_message frame];
 	about_message_frame.origin.x = 10;
 	about_message_frame.origin.y = 30;
 	[about_message setFrame:about_message_frame];
 
-	// Can't get constraints working either!
 	// NSDictionary *this_dict =
 	// 	@{@"about_message":about_message, @"window_view":self.about_window.contentView};
 // + constraintsWithVisualFormat:options:metrics:views:
@@ -116,11 +110,28 @@
 	NSLog(@"Called");
 }
 
+-(void)setup_main_interface
+{
+	NSTabView *v = [NSTabView new];
+
+	NSTabViewItem *first_page =
+		[[NSTabViewItem alloc] initWithIdentifier:@"first_page"];
+
+	for (NSTabViewItem *g in @[first_page])
+		[v addTabViewItem:g];
+
+	[self.main_window.contentView addSubview:v];
+
+}
+
 -(void)setup_ui
 {
 	Ssh_ml *ml_obj = [Ssh_ml shared_application];
 	[self setup_menus];
+	// [self setup_main_interface];
+
   [self.main_window setBackgroundColor:[NSColor grayColor]];
+
   NSButton *send_query = [[NSButton alloc]
 			   initWithFrame:NSMakeRect(20, 500, 150, 40)];
   send_query.bezelStyle = NSRoundedBezelStyle;

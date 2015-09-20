@@ -14,10 +14,12 @@ AlphaFeatures: ocamlbuild_more_args
 # an objective-C .m extension
 
 PreBuildCommand:
+  cp src/lib/ssh_exts.m src/lib/ssh_exts.c;
   cp src/lib/ssh_gui.m src/lib/ssh_gui.c;
   cp src/lib/ssh_ml.m src/lib/ssh_ml.c
 
 PostBuildCommand:
+  rm src/lib/ssh_exts.c;
   rm src/lib/ssh_gui.c;
   rm src/lib/ssh_ml.c
 
@@ -45,10 +47,11 @@ Library tallgeese_lib
   CompiledObject: native
   CCOpt: -g -Wextra -Wall -ObjC -fobjc-arc
   ByteOpt:
-    -ccopt -framework -ccopt Appkit -ccopt -framework -ccopt SceneKit
-  NativeOpt: -ccopt -framework -ccopt Appkit
+    -ccopt -framework -ccopt Appkit -ccopt \
+    -framework -ccopt SceneKit -ccopt -ObjC
+  NativeOpt: -ccopt -framework -ccopt Appkit -ccopt -ObjC
   CSources:
-    ssh_exts.h, ssh_exts.m,
+    ssh_exts.h, ssh_exts.c,
     ssh_gui.h, ssh_gui.c,
     ssh_ml.h, ssh_ml.c,
     tallgeese_stubs.c
