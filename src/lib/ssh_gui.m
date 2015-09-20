@@ -127,15 +127,15 @@
 
 -(void)setup_ui
 {
+	Ssh_ml *ml_obj = [Ssh_ml shared_application];
 	[self setup_menus];
-
   [self.main_window setBackgroundColor:[NSColor grayColor]];
   NSButton *send_query = [[NSButton alloc]
 			   initWithFrame:NSMakeRect(20, 500, 150, 40)];
   send_query.bezelStyle = NSRoundedBezelStyle;
   send_query.title = @"Send ssh command";
-  [send_query setTarget:self];
-  [send_query setAction:@selector(send_query)];
+  [send_query setTarget:ml_obj];
+  [send_query setAction:@selector(query_zipcode_of_ip:)];
 
   [self.main_window.contentView addSubview:send_query];
 

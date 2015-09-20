@@ -29,5 +29,14 @@
 	return shared_app;
 }
 
+-(void)query_zipcode_of_ip:(NSButton*)b
+{
+	NSLog(@"Called query_zipcode, %@", b);
+}
+
+-(void)receive_query_result:(value)r_variant
+{
+	NSLog(@"query_Result called");
+}
 
 @end
