@@ -1,16 +1,9 @@
-// Avoid name_clashes
-#define CAML_NAME_SPACE
-// OCaml declarations
-#include <caml/mlvalues.h>
-#include <caml/alloc.h>
-#include <caml/callback.h>
-#include <caml/memory.h>
-#include <caml/fail.h>
 //Cocoa
 #import <Cocoa/Cocoa.h>
 
 #include "ssh_gui.h"
 #include "ssh_exts.h"
+#include "ssh_ml.h"
 
 @implementation SshGUI
 
@@ -27,6 +20,7 @@
   [self.main_window makeKeyAndOrderFront:NSApp];
 	// Make sure we're ahead of anything else.
 	[self.main_window setLevel:NSNormalWindowLevel + 1];
+
 }
 
 -(void)send_query

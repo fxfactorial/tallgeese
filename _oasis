@@ -13,8 +13,13 @@ AlphaFeatures: ocamlbuild_more_args
 # Have to do this because stupid CSources won't take files ending in
 # an objective-C .m extension
 
-PreBuildCommand: cp src/lib/ssh_gui.m src/lib/ssh_gui.c
-PostBuildCommand: rm src/lib/ssh_gui.c
+PreBuildCommand:
+  cp src/lib/ssh_gui.m src/lib/ssh_gui.c;
+  cp src/lib/ssh_ml.m src/lib/ssh_ml.c
+
+PostBuildCommand:
+  rm src/lib/ssh_gui.c;
+  rm src/lib/ssh_ml.c
 
 Description:
   Enhanced SSH experience on OS X using native Cocoa
@@ -44,7 +49,9 @@ Library tallgeese_lib
   NativeOpt: -ccopt -framework -ccopt Appkit
   CSources:
     ssh_exts.h, ssh_exts.m,
-    ssh_gui.h, ssh_gui.c, tallgeese_stubs.c
+    ssh_gui.h, ssh_gui.c,
+    ssh_ml.h, ssh_ml.c,
+    tallgeese_stubs.c
 
 # Executable run_test
 #   Install:false
