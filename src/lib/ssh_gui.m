@@ -23,17 +23,6 @@
 
 }
 
--(void)send_query
-{
-	// Temporarily disabled
-  // caml_callback(*caml_named_value("zipcode_of_ip"),
-  // 		 caml_copy_string("45.33.64.41"));
-
-  // caml_callback2(*caml_named_value("connect_to"),
-  // 		 caml_copy_string("edgar.haus"),
-  // 		 caml_copy_string("gar"));
-}
-
 -(void)setup_menus
 {
 	NSMenu *menu_bar = [NSMenu new];
@@ -88,8 +77,9 @@
 									backing:NSBackingStoreBuffered
 										defer:NO];
 	// The category is not working at the moment, no idea why, come back to later
-	// NSTextField *about_message = [[NSTextField alloc] init_as_label:@"Hello"];
-	// Can't get constraints working either!
+	// NSTextField *about_message_cat = [[NSTextField alloc] init_as_label:@"Hello"];
+	// NSTextField *about_message_cat = [NSTextField init_as_label:@"Hello"];
+
 	NSTextField *about_message = [NSTextField new];
 	about_message.editable = NO;
 	about_message.bezeled = NO;
@@ -102,6 +92,7 @@
 	about_message_frame.origin.y = 30;
 	[about_message setFrame:about_message_frame];
 
+	// Can't get constraints working either!
 	// NSDictionary *this_dict =
 	// 	@{@"about_message":about_message, @"window_view":self.about_window.contentView};
 // + constraintsWithVisualFormat:options:metrics:views:

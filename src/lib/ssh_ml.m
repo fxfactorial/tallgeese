@@ -32,6 +32,14 @@
 
 -(void)query_zipcode_of_ip:(NSButton*)b
 {
+
+	// caml_callback(*caml_named_value("zipcode_of_ip"),
+  // 		 caml_copy_string("45.33.64.41"));
+
+	// caml_callback2(*caml_named_value("connect_to"),
+  // 		 caml_copy_string("edgar.haus"),
+  // 		 caml_copy_string("gar"));
+
 	NSLog(@"Called query_zipcode, %@", b);
 }
 
@@ -53,7 +61,6 @@
 		break;
 	}
 	free(result);
-
 }
 
 @end

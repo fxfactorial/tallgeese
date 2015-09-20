@@ -13,6 +13,7 @@
 		self.selectable = NO;
 		[self sizeToFit];
 	}
+	NSLog(@"Created a category!");
 	return self;
 }
 
