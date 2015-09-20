@@ -1,7 +1,7 @@
 set appName to "Tallgeese"
 set thePath to (path to applications folder from user domain as string with folder creation) & appName & ".app"
 tell application "Script Editor"
-    set command to "do shell script " & "\"/Users/Edgar/.opam/working/bin/tallgeese\""
+    set command to "do shell script " & "\"APP_PATH\""
     set innard to {contents:command}
     set Tallgeese to make new document with properties innard
     compile Tallgeese
