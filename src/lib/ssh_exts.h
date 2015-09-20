@@ -8,4 +8,11 @@
 -(instancetype)init_as_label:(NSString*)s;
 
 @end
+
+@interface NSTabViewItem (WithLabel)
+
+-(instancetype)init_with:(NSString*)l tool_tip:(NSString*)t identifier:(id)i;
+
+@end
+
 #endif

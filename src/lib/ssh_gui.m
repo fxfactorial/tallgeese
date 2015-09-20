@@ -18,9 +18,9 @@
   self.main_window =
     [[NSWindow alloc]
       initWithContentRect:NSMakeRect(50, 10, 500, 600)
-		styleMask:flags
-		  backing:NSBackingStoreBuffered
-		    defer:NO];
+								styleMask:flags
+									backing:NSBackingStoreBuffered
+										defer:NO];
 	// NSToolbar *bar = [[NSToolbar alloc] initWithIdentifier:@"main_window_toolbar"];
 	// bar.displayMode = NSToolbarDisplayModeIconAndLabel;
 	// self.main_window.toolbar = bar;
@@ -57,9 +57,9 @@
 			keyEquivalent:@","];
 	NSArray *add_these =
 		@[about,
-		  [NSMenuItem separatorItem],
-			preferences,
-		  [NSMenuItem separatorItem], quit_item];
+					 [NSMenuItem separatorItem],
+					 preferences,
+					 [NSMenuItem separatorItem], quit_item];
 	// Add them finally
 	for (id iter in add_these)
 		[app_menu addItem:iter];
@@ -96,8 +96,8 @@
 
 	// NSDictionary *this_dict =
 	// 	@{@"about_message":about_message, @"window_view":self.about_window.contentView};
-// + constraintsWithVisualFormat:options:metrics:views:
-// [button1 setTranslatesAutoresizingMaskIntoConstraints:NO];
+	// + constraintsWithVisualFormat:options:metrics:views:
+	// [button1 setTranslatesAutoresizingMaskIntoConstraints:NO];
 	// [about_message setTranslatesAutoresizingMaskIntoConstraints:NO];
 	// NSArray *cons =
 	// 	[NSLayoutConstraint
@@ -124,11 +124,16 @@
 	v.drawsBackground = YES;
 
 	NSTabViewItem *first_page =
-		[[NSTabViewItem alloc] initWithIdentifier:@"first_page"];
+		[[NSTabViewItem alloc] init_with:@"Dashboard"
+														tool_tip:@"Main ssh manipulation"
+													identifier:@"first_page"];
 
-	first_page.label = @"First Page";
+	NSTabViewItem *second_page =
+		[[NSTabViewItem alloc] init_with:@"History"
+														tool_tip:@"Some second page"
+													identifier:@"second_page"];
 
-	for (NSTabViewItem *g in @[first_page])
+	for (id g in @[first_page, second_page])
 		[v addTabViewItem:g];
 
 	self.main_window.contentView = v;

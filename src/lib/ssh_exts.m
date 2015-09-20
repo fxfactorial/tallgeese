@@ -18,3 +18,18 @@
 }
 
 @end
+
+
+@implementation NSTabViewItem (WithLabel)
+
+-(instancetype)init_with:(NSString*)l tool_tip:(NSString*)t identifier:(id)i
+{
+	if ((self = [NSTabViewItem new])) {
+		self.identifier = i;
+		self.label = l;
+		self.toolTip = t;
+	}
+	return self;
+}
+
+@end
