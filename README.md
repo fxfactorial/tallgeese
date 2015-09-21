@@ -10,7 +10,9 @@ Working version that actually connects and works:
 1.  Everything is sync, async will come later
 2.  Only authenticating if you already have ssh keys known for a
     particular host
-3.  Lots more
+3.  I'm doing this completely without XCode, InterfaceBuilder so some
+    things are somewhat harder to do or take me longer to figure
+    out; `Cocoa` does a lot of magic.
 
 Question: Where did the name come from?
 Answer:
