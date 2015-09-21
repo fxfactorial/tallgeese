@@ -15,16 +15,18 @@ AlphaFeatures: ocamlbuild_more_args
 
 PreBuildCommand:
   cp src/lib/ssh_exts.m src/lib/ssh_exts.c;
+  cp src/lib/ssh_app_delegate.m src/lib/ssh_app_delegate.c;
   cp src/lib/ssh_config_view.m src/lib/ssh_config_view.c;
   cp src/lib/ssh_gui.m src/lib/ssh_gui.c;
-  cp src/lib/ssh_prefs.m src/lib/ssh_prefs.c;
+  cp src/lib/ssh_app_prefs.m src/lib/ssh_app_prefs.c;
   cp src/lib/ssh_ml.m src/lib/ssh_ml.c
 
 PostBuildCommand:
   rm src/lib/ssh_exts.c;
   rm src/lib/ssh_config_view.c;
   rm src/lib/ssh_gui.c;
-  rm src/lib/ssh_prefs.c;
+  rm src/lib/ssh_app_delegate.c;
+  rm src/lib/ssh_app_prefs.c;
   rm src/lib/ssh_ml.c
 
 Description:
@@ -56,9 +58,10 @@ Library tallgeese_lib
   NativeOpt: -ccopt -framework -ccopt Appkit -ccopt -ObjC
   CSources:
     ssh_exts.h, ssh_exts.c,
+    ssh_app_delegate.h, ssh_app_delegate.c,
     ssh_config_view.h, ssh_config_view.c,
     ssh_gui.h, ssh_gui.c,
-    ssh_prefs.h, ssh_prefs.c,
+    ssh_app_prefs.h, ssh_app_prefs.c,
     ssh_ml.h, ssh_ml.c,
     tallgeese_stubs.c
 

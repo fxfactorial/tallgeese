@@ -3,7 +3,7 @@
 #include "ssh_gui.h"
 #include "ssh_exts.h"
 #include "ssh_ml.h"
-#include "ssh_prefs.h"
+#include "ssh_app_prefs.h"
 #include "ssh_config_view.h"
 
 @implementation SshGUI
