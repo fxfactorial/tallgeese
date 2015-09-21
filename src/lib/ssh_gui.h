@@ -5,7 +5,7 @@
 #ifndef SSH_GUI_H
 #define SSH_GUI_H
 
-@interface SshGUI : NSObject <NSApplicationDelegate>
+@interface SshGUI : NSObject <NSApplicationDelegate, NSToolbarDelegate>
 
 @property (strong, nonatomic) NSWindow *main_window;
 @property (strong, nonatomic) NSWindow *about_window;

@@ -4,6 +4,7 @@
 #include "ssh_exts.h"
 #include "ssh_ml.h"
 #include "ssh_prefs.h"
+#include "ssh_config_view.h"
 
 @implementation SshGUI
 
@@ -21,15 +22,38 @@
 								styleMask:flags
 									backing:NSBackingStoreBuffered
 										defer:NO];
-	// NSToolbar *bar = [[NSToolbar alloc] initWithIdentifier:@"main_window_toolbar"];
-	// bar.displayMode = NSToolbarDisplayModeIconAndLabel;
-	// self.main_window.toolbar = bar;
+
+	NSToolbar *bar = [[NSToolbar alloc] initWithIdentifier:@"main_window_toolbar"];
+	bar.displayMode = NSToolbarDisplayModeIconAndLabel;
+	bar.sizeMode =NSToolbarSizeModeSmall;
+
+	[bar setDelegate:self];
+	self.main_window.toolbar = bar;
 
 	[self.main_window setTitle:@"Tallgeese"];
   [self setup_ui];
   [self.main_window makeKeyAndOrderFront:NSApp];
 	// Make sure we're ahead of anything else.
 	[self.main_window setLevel:NSNormalWindowLevel + 1];
+}
+
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
+     itemForItemIdentifier:(NSString *)itemIdentifier
+ willBeInsertedIntoToolbar:(BOOL)flag
+{
+	// If You want to add a new toolbar item, make it here and add the
+	// identifier to the other two methods related to the toolbar
+	return nil;
+}
+
+- (NSArray*)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
+{
+	return @[NSToolbarShowColorsItemIdentifier, NSToolbarShowFontsItemIdentifier];
+}
+
+- (NSArray*)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
+{
+	return @[NSToolbarShowColorsItemIdentifier, NSToolbarShowFontsItemIdentifier];
 }
 
 -(void)setup_menus
@@ -160,8 +184,9 @@
 	[first_page.view addSubview:input_field];
 	NSTabViewItem *second_page =
 		[[NSTabViewItem alloc]
-			init_with:@"History" tool_tip:@"Some second page" identifier:@"second_page"];
+			init_with:@"Configuration" tool_tip:@"SSH configs to use" identifier:@"second_page"];
 
+	second_page.view = [[Ssh_config_view alloc] init];
 	for (id g in @[first_page, second_page])
 		[v addTabViewItem:g];
 
