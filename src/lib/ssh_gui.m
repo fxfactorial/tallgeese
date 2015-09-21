@@ -37,6 +37,12 @@
 	[self.main_window setLevel:NSNormalWindowLevel + 1];
 }
 
+-(void)applicationWillResignActive:(id)whatever
+{
+	// Be nice and go away
+	[self.main_window setLevel:NSNormalWindowLevel];
+}
+
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
      itemForItemIdentifier:(NSString *)itemIdentifier
  willBeInsertedIntoToolbar:(BOOL)flag
