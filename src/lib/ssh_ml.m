@@ -37,11 +37,11 @@
 	NSLog(@"Called query_zipcode, %@", ip);
 }
 
--(void)send_ssh_command:(NSString*)command
+-(void)send_ssh_command:(NSString*)user host:(NSString*)host command:(NSString*)command
 {
-	caml_callback3(*caml_named_value("connect_to"),
-								 caml_copy_string("edgar.haus"),
-								 caml_copy_string("gar"),
+	caml_callback3(*caml_named_value("do_exec"),
+								 caml_copy_string(host.UTF8String),
+								 caml_copy_string(user.UTF8String),
 								 caml_copy_string(command.UTF8String));
 }
 

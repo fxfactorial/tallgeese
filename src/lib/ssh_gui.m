@@ -178,7 +178,8 @@
 
 -(void)command_send:(NSTextField*)sender
 {
-	[self.ml_bridge send_ssh_command:sender.stringValue];
+	[self.ml_bridge
+			send_ssh_command:@"gar" host:@"edgar.haus" command:sender.stringValue];
 	self.ssh_output.string =
 		[self.ssh_output.string stringByAppendingString:self.ssh_output_string];
 }

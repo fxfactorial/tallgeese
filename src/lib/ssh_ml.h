@@ -21,7 +21,7 @@
 -(instancetype)init_with:(Ssh_gui*)handler;
 
 -(void)handle_query_result:(value)r;
--(void)send_ssh_command:(NSString*)command;
+-(void)send_ssh_command:(NSString*)user host:(NSString*)name command:(NSString*)c;
 -(void)query_zipcode_of_ip:(NSString*)ip;
 
 @end
