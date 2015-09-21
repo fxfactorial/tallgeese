@@ -13,7 +13,8 @@
 	CGFloat center_y = CGRectGetMidY(screen_frame);
 	NSRect about_frame = NSMakeRect(center_x - 75, center_y - 50, 175, 150);
 
-	NSTextField *prefs = [[NSTextField alloc] init_as_label:@"Preferences"];
+	NSTextField *prefs =
+		[[NSTextField alloc] init_as_label:@"Preferences" with:NSMakeRect(0, 0, 0, 0)];
 
 	self.preferences_window =
 		[[NSWindow alloc]

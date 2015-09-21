@@ -15,7 +15,8 @@ let do_exec host user command  =
   try
     ShellCommand(exec command (connect_to host user)) |> to_gui
   with
-    _ -> prerr_endline "Some error doing shell command"
+    Connection_failure -> prerr_endline "Connection failure, check username and hostmachine"
+  | _ -> prerr_endline "Some unknown error doing shell command"
 
 let zipcode_of_ip host =
   Zipcode (Maxminddb.create "etc/GeoLite2-City.mmdb"

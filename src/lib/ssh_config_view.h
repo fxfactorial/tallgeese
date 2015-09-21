@@ -6,8 +6,8 @@
 
 @interface Ssh_config_view : NSView
 
-@property (strong, nonatomic) NSString *destination;
-@property (strong, nonatomic) NSString *user_name;
+@property (strong, nonatomic) NSTextField *destination;
+@property (strong, nonatomic) NSTextField *username;
 
 -(NSDictionary*)get_config_options;
 

@@ -51,7 +51,7 @@ Library tallgeese_lib
   BuildTools:ocamlbuild
   InternalModules: Tallgeese_lib
   CompiledObject: native
-  CCOpt: -g -Wextra -Wall -ObjC -fobjc-arc
+  CCOpt: -g -Weverything -Wall -ObjC -fobjc-arc
   ByteOpt:
     -ccopt -framework -ccopt Appkit -ccopt \
     -framework -ccopt SceneKit -ccopt -ObjC

@@ -4,9 +4,9 @@
 
 @implementation NSTextField (PlainLabel)
 
--(instancetype)init_as_label:(NSString*)s
+-(instancetype)init_as_label:(NSString*)s with:(NSRect)frame
 {
-	if (self = [super initWithFrame:NSMakeRect(0, 0, 0, 0)]) {
+	if ((self = [super initWithFrame:frame])) {
 		self.editable = NO;
 		self.bezeled = NO;
 		self.drawsBackground = NO;

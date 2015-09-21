@@ -22,7 +22,7 @@
 
 -(instancetype)init_with:(Ssh_gui*)handler
 {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.parent_handler = handler;
 	}
 	return self;

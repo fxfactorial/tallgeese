@@ -10,7 +10,7 @@
 
 -(instancetype)initWithFrame:(NSRect)f
 {
-	if (self = [super initWithFrame:f]) {
+	if ((self = [super initWithFrame:f])) {
 		self.ml_bridge = [[Ssh_ml alloc] init_with:self];
 		self.ssh_output_string = @"";
 		self.zipcode_output = @"";
@@ -84,7 +84,7 @@
 	// Notice that if you don't do this as a property, aka holding a
 	// strong reference to it then it gets collected and disappears
 	// immediately
-	int flags = NSTitledWindowMask | NSClosableWindowMask;
+	NSUInteger flags = NSTitledWindowMask | NSClosableWindowMask;
 	NSRect screen_frame = [NSScreen mainScreen].frame;
 	CGFloat center_x = CGRectGetMidX(screen_frame);
 	CGFloat center_y = CGRectGetMidY(screen_frame);
@@ -94,7 +94,7 @@
 			initWithContentRect:about_frame styleMask:flags backing:NSBackingStoreBuffered defer:NO];
 
 	NSTextField *about_message =
-		[[NSTextField alloc] init_as_label:@"About Tallgeese"];
+		[[NSTextField alloc] init_as_label:@"About Tallgeese" with:NSMakeRect(0, 0, 0, 0)];
 
 	NSRect about_message_frame = [about_message frame];
 	about_message_frame.origin.x = 10;
@@ -157,7 +157,6 @@
 	[self.ssh_output setEditable:NO];
 	[ssh_output_scroll setDocumentView:self.ssh_output];
 
-
 	NSTextField *input_field =
 		[[NSTextField alloc] initWithFrame:NSMakeRect(0, 525, 400, 30)];
 
@@ -169,7 +168,8 @@
 		[[NSTabViewItem alloc]
 			init_with:@"Configuration" tool_tip:@"SSH configs to use" identifier:@"second_page"];
 
-	second_page.view = [[Ssh_config_view alloc] init];
+	self.ssh_configs = [[Ssh_config_view alloc] init];
+	second_page.view = self.ssh_configs;
 	for (id g in @[first_page, second_page])
 		[v addTabViewItem:g];
 
@@ -178,8 +178,9 @@
 
 -(void)command_send:(NSTextField*)sender
 {
+	NSDictionary *user_configs = [self.ssh_configs get_config_options];
 	[self.ml_bridge
-			send_ssh_command:@"gar" host:@"edgar.haus" command:sender.stringValue];
+			send_ssh_command:user_configs[@"username"] host:user_configs[@"dest"] command:sender.stringValue];
 	self.ssh_output.string =
 		[self.ssh_output.string stringByAppendingString:self.ssh_output_string];
 }

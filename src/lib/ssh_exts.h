@@ -7,7 +7,7 @@
 
 @interface NSTextField (PlainLabel)
 
--(instancetype)init_as_label:(NSString*)s;
+-(instancetype)init_as_label:(NSString*)s with:(NSRect)f;
 
 @end
 
