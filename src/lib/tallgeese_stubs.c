@@ -8,15 +8,17 @@
 //Cocoa
 #import <Cocoa/Cocoa.h>
 
-#include "ssh_gui.h"
+#include "ssh_app_delegate.h"
 #include "ssh_ml.h"
 
 CAMLprim value cocoa_ml_receive_query_result(value r_variant)
 {
 	CAMLparam1(r_variant);
 
-	Ssh_ml *ml_obj = [Ssh_ml shared_application];
-	[ml_obj handle_query_result:r_variant];
+	NSApplication *app = [NSApplication sharedApplication];
+	[((Ssh_app_delegate*)app.delegate).app_logic.ml_bridge
+	 handle_query_result:r_variant];
+
 	CAMLreturn(Val_unit);
 }
 
@@ -28,7 +30,7 @@ CAMLprim value cocoa_ml_start(void)
     // Critical to have this so that you can add menus
     [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
 
-    SshGUI *app_delegate = [[SshGUI alloc] init];
+    Ssh_app_delegate *app_delegate = [Ssh_app_delegate new];
     /* close(STDOUT_FILENO); */
     /* fclose(stdout); */
     app.delegate = app_delegate;

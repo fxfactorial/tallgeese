@@ -1,9 +1,9 @@
 #import <Cocoa/Cocoa.h>
 
-#ifndef SSH_PREFS_H
-#define SSH_PREFS_H
+#ifndef SSH_APP_PREFS_H
+#define SSH_APP_PREFS_H
 
-@interface Ssh_prefs : NSObject
+@interface Ssh_app_prefs : NSObject
 
 @property (strong, nonatomic) NSWindow *preferences_window;
 

@@ -1,9 +1,9 @@
 #import <Cocoa/Cocoa.h>
 
-#include "ssh_prefs.h"
+#include "ssh_app_prefs.h"
 #include "ssh_exts.h"
 
-@implementation Ssh_prefs
+@implementation Ssh_app_prefs
 
 -(void)show
 {

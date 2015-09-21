@@ -6,41 +6,18 @@
 #include "ssh_app_prefs.h"
 #include "ssh_config_view.h"
 
-@implementation SshGUI
+@implementation Ssh_gui
 
-- (void)applicationDidFinishLaunching:(NSNotification *)a_notification
+-(instancetype)initWithFrame:(NSRect)f
 {
-	int flags =
-		NSTitledWindowMask
-		| NSResizableWindowMask
-		| NSUnifiedTitleAndToolbarWindowMask
-		| NSClosableWindowMask
-		| NSMiniaturizableWindowMask;
-  self.main_window =
-    [[NSWindow alloc]
-      initWithContentRect:NSMakeRect(50, 10, 500, 600)
-								styleMask:flags
-									backing:NSBackingStoreBuffered
-										defer:NO];
-
-	NSToolbar *bar = [[NSToolbar alloc] initWithIdentifier:@"main_window_toolbar"];
-	bar.displayMode = NSToolbarDisplayModeIconAndLabel;
-	bar.sizeMode =NSToolbarSizeModeSmall;
-
-	[bar setDelegate:self];
-	self.main_window.toolbar = bar;
-
-	[self.main_window setTitle:@"Tallgeese"];
-  [self setup_ui];
-  [self.main_window makeKeyAndOrderFront:NSApp];
-	// Make sure we're ahead of anything else.
-	[self.main_window setLevel:NSNormalWindowLevel + 1];
-}
-
--(void)applicationWillResignActive:(id)whatever
-{
-	// Be nice and go away
-	[self.main_window setLevel:NSNormalWindowLevel];
+	if (self = [super initWithFrame:f]) {
+		self.ml_bridge = [[Ssh_ml alloc] init_with:self];
+		self.ssh_output_string = @"";
+		self.zipcode_output = @"";
+		[self setup_menus];
+		[self setup_main_interface];
+	}
+	return self;
 }
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
@@ -144,13 +121,13 @@
 
 -(void)preferences
 {
-	self.prefs_object = [Ssh_prefs new];
+	self.prefs_object = [Ssh_app_prefs new];
 	[self.prefs_object show];
 }
 
 -(void)setup_main_interface
 {
-	NSTabView *v = [NSTabView new];
+	NSTabView *v = [[NSTabView alloc] initWithFrame:self.frame];
 	v.drawsBackground = YES;
 	self.ssh_output = [[NSTextView alloc] init];
 	[self.ssh_output setTextColor:[NSColor greenColor]];
@@ -196,56 +173,30 @@
 	for (id g in @[first_page, second_page])
 		[v addTabViewItem:g];
 
-	self.main_window.contentView = v;
+	[self addSubview:v];
 }
 
 -(void)command_send:(NSTextField*)sender
 {
-	Ssh_ml *ml_obj = [Ssh_ml shared_application];
-
-	[ml_obj send_ssh_command:sender.stringValue];
-
+	[self.ml_bridge send_ssh_command:sender.stringValue];
 	self.ssh_output.string =
 		[self.ssh_output.string stringByAppendingString:self.ssh_output_string];
-	self.ssh_output.string =
-		[self.ssh_output.string stringByAppendingString:@"\n"];
 }
 
 -(void)setup_ui
 {
 	[self setup_menus];
 	[self setup_main_interface];
+}
 
-  // [self.main_window setBackgroundColor:[NSColor grayColor]];
+-(void)receive_zipcode_result:(NSString*)s
+{
+	self.zipcode_output = s;
+}
 
-  // NSButton *send_query = [[NSButton alloc]
-	// 		   initWithFrame:NSMakeRect(20, 500, 150, 40)];
-  // send_query.bezelStyle = NSRoundedBezelStyle;
-  // send_query.title = @"Send ssh command";
-  // [send_query setTarget:ml_obj];
-  // [send_query setAction:@selector(query_zipcode_of_ip:)];
-
-  // [self.main_window.contentView addSubview:send_query];
-
-  // NSScrollView *scrolling = [[NSScrollView alloc]
-	// 		     initWithFrame:NSMakeRect(40, 40, 440, 400)];
-  // self.ssh_output = [[NSTextView alloc] initWithFrame:scrolling.frame];
-  // self.ssh_output.editable = YES;
-  // NSTextField *describe =
-  //   [[NSTextField alloc] initWithFrame:NSMakeRect(250, 525, 170, 20)];
-  // describe.bezeled = NO;
-  // describe.editable = NO;
-  // describe.selectable = NO;
-  // describe.stringValue = @"ZipCode of the SSH Server";
-
-  // self.zip_code =
-  //   [[NSTextView alloc] initWithFrame:NSMakeRect(300, 500, 100, 20)];
-  // [scrolling addSubview:self.ssh_output];
-  // [scrolling setHasVerticalScroller:YES];
-
-  // [self.main_window.contentView addSubview:self.zip_code];
-  // [self.main_window.contentView addSubview:scrolling];
-  // [self.main_window.contentView addSubview:describe];
+-(void)receive_ssh_output_result:(NSString*)s
+{
+	self.ssh_output_string = s;
 }
 
 @end

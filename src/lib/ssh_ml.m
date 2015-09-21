@@ -20,29 +20,21 @@
 
 @implementation Ssh_ml
 
-+(Ssh_ml*)shared_application
+-(instancetype)init_with:(Ssh_gui*)handler
 {
-	static Ssh_ml *shared_app = nil;
-	static dispatch_once_t once_token;
-
-	dispatch_once(&once_token, ^{
-      shared_app = [[self alloc] init];
-		});
-
-	return shared_app;
+	if (self = [super init]) {
+		self.parent_handler = handler;
+	}
+	return self;
 }
 
--(void)query_zipcode_of_ip:(NSButton*)b
+-(void)query_zipcode_of_ip:(NSString*)ip
 {
 
 	// caml_callback(*caml_named_value("zipcode_of_ip"),
   // 		 caml_copy_string("45.33.64.41"));
 
-	// caml_callback2(*caml_named_value("connect_to"),
-  // 		 caml_copy_string("edgar.haus"),
-  // 		 caml_copy_string("gar"));
-
-	NSLog(@"Called query_zipcode, %@", b);
+	NSLog(@"Called query_zipcode, %@", ip);
 }
 
 -(void)send_ssh_command:(NSString*)command
@@ -57,16 +49,14 @@
 {
 	char *result = caml_strdup(String_val(Field(r_variant, 0)));
 	int type = Tag_val(r_variant);
-	NSApplication *app = [NSApplication sharedApplication];
+	NSString *pulled = [[NSString alloc] initWithUTF8String:result];
 
 	switch (type) {
 	case 0:
-		((SshGUI*)app.delegate).zip_code_output =
-			[[NSString alloc] initWithUTF8String:result];
+		[self.parent_handler receive_zipcode_result:pulled];
 		break;
 	case 1:
-		((SshGUI*)app.delegate).ssh_output_string =
-			[[NSString alloc] initWithUTF8String:result];
+		[self.parent_handler receive_ssh_output_result:pulled];
 		break;
 	}
 	free(result);

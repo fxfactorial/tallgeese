@@ -10,7 +10,6 @@
 	if (self = [super init]) {
 		[self addSubview: [[NSTextField alloc] init_as_label:@"Test"]];
 	}
-	NSLog(@"Created");
 	return self;
 }
 
