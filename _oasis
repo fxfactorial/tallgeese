@@ -30,12 +30,12 @@ PostBuildCommand:
   rm src/lib/ssh_ml.c
 
 Description:
-  Enhanced SSH experience on OS X using native Cocoa
+  Enhanced SSH experience on OS X using native Cocoa GUI.
 
   tallgeese is an OCaml/Objective-C application that
   makes the SSH experience more enjoyable on OS X.
 
-Executable Tallgeese
+Executable tallgeese
   Build$: system(macosx)
   Path: src/app
   BuildTools:ocamlbuild
@@ -43,7 +43,8 @@ Executable Tallgeese
   MainIs: main.ml
   CCOpt: -g -Weverything -Wall -ObjC -fobjc-arc
   CompiledObject: native
-  BuildDepends: cmdliner, ssh, maxminddb, tallgeese_lib
+  BuildDepends:
+    cmdliner, ssh, maxminddb, tallgeese_lib
 
 Library tallgeese_lib
   Path: src/lib
@@ -55,7 +56,8 @@ Library tallgeese_lib
   ByteOpt:
     -ccopt -framework -ccopt Appkit -ccopt \
     -framework -ccopt SceneKit -ccopt -ObjC
-  NativeOpt: -ccopt -framework -ccopt Appkit -ccopt -ObjC
+  NativeOpt:
+    -ccopt -framework -ccopt Appkit -ccopt -ObjC
   CSources:
     ssh_exts.h, ssh_exts.c,
     ssh_app_delegate.h, ssh_app_delegate.c,
