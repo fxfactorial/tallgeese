@@ -59,7 +59,7 @@
 		[self.parent_handler receive_ssh_output_result:pulled];
 		break;
 	}
-	free(result);
+	caml_stat_free(result);
 }
 
 @end
